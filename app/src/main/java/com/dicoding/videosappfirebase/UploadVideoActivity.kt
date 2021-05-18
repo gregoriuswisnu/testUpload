@@ -68,7 +68,7 @@ class UploadVideoActivity : AppCompatActivity() {
         storageReference.putFile(videoUri!!)
             .addOnSuccessListener {
                 val uriTask = it.storage.downloadUrl
-//                while (!uriTask.isSuccessful);
+                while (!uriTask.isSuccessful);
                 val downloadUri = uriTask.result
                 if (uriTask.isSuccessful){
                     val hashMap = HashMap<String, Any>()
@@ -78,7 +78,7 @@ class UploadVideoActivity : AppCompatActivity() {
                     hashMap["deepfake"] = "$deepfake"
 
 
-                    val dbReference = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
+                    val dbReference = FirebaseDatabase.getInstance().getReference("Videos")
                     dbReference.child(timestamp)
                         .setValue(hashMap)
                         .addOnSuccessListener {
