@@ -68,7 +68,7 @@ class UploadVideoActivity : AppCompatActivity() {
         storageReference.putFile(videoUri!!)
             .addOnSuccessListener {
                 val uriTask = it.storage.downloadUrl
-                while (!uriTask.isSuccessful);
+//                while (!uriTask.isSuccessful);
                 val downloadUri = uriTask.result
                 if (uriTask.isSuccessful){
                     val hashMap = HashMap<String, Any>()
