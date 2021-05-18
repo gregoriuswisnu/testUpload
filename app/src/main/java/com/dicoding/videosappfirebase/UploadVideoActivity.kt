@@ -78,7 +78,7 @@ class UploadVideoActivity : AppCompatActivity() {
                     hashMap["deepfake"] = "$deepfake"
 
 
-                    val dbReference = FirebaseDatabase.getInstance().getReference("Videos")
+                    val dbReference = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
                     dbReference.child(timestamp)
                         .setValue(hashMap)
                         .addOnSuccessListener {
