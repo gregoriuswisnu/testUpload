@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">VideosAppFirebase</string>
+    <string name="upload_your_videos">Upload Your Videos</string>
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "342760324688",
+    "project_id": "videosappfirebase",
+    "storage_bucket": "videosappfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342760324688:android:eeb945de2091843aafdb55",
+        "android_client_info": {
+          "package_name": "com.dicoding.videosappfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342760324688-r22bfe3gl8uajfmsd4tdqffitfcggrsl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuWApLAqLBU0N3LWVNVuF2vaOl89FfeXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342760324688-r22bfe3gl8uajfmsd4tdqffitfcggrsl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
