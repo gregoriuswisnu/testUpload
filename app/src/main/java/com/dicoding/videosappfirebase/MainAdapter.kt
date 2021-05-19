@@ -68,12 +68,12 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
         holder.videoView.setOnInfoListener(MediaPlayer.OnInfoListener{mp, what, extra ->
             when(what){
                 MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START ->{
-                    holder.progressBar.visibility = View.VISIBLE
+                    holder.progressBar.visibility = View.INVISIBLE
                     return@OnInfoListener true
                 }
                 MediaPlayer.MEDIA_INFO_BUFFERING_START ->{
                     holder.progressBar.visibility = View.VISIBLE
-                    return@OnInfoListener true
+                            return@OnInfoListener true
                 }
                 MediaPlayer.MEDIA_INFO_BUFFERING_END ->{
                     holder.progressBar.visibility = View.GONE
@@ -83,7 +83,7 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
             false
         })
         holder.videoView.setOnCompletionListener { mediaPlayer ->
-            mediaPlayer.start()
+            mediaPlayer.stop()
         }
     }
 
