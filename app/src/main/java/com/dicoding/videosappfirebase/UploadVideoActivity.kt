@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 @Suppress("DEPRECATION")
-class UploadVideoActivity : AppCompatActivity() {
+class  UploadVideoActivity : AppCompatActivity() {
     private var videoUri: Uri? = null
     private lateinit var binding: ActivityUploadVideoBinding
     private var title:String = ""
@@ -58,6 +58,7 @@ class UploadVideoActivity : AppCompatActivity() {
     }
 
     private fun uploadVideotoFirebase() {
+        var int = ""
         progressDialog.show()
 
         val timestamp = "" + System.currentTimeMillis()
@@ -76,10 +77,11 @@ class UploadVideoActivity : AppCompatActivity() {
                     hashMap["title"] = "$title"
                     hashMap["videoUrl"] = "$downloadUri"
                     hashMap["deepfake"] = "$deepfake"
+                    hashMap["timestamp"] = "$timestamp"
 
 
                     val dbReference = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
-                    dbReference.child(timestamp)
+                    dbReference.child(int.toString() + 1)
                         .setValue(hashMap)
                         .addOnSuccessListener {
                             progressDialog.dismiss()
