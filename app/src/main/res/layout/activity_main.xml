@@ -33,18 +33,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:ignore="contentDescription" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvVideo"
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uploadVideos"
-        tools:listitem="@layout/item_video"/>
+        android:id="@+id/scroll">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/uploadVideos"
+            tools:listitem="@layout/item_video"/>
+
+    </ScrollView>-->
 
     <TextView
         android:id="@+id/textView2"
@@ -86,10 +95,19 @@
         android:layout_marginBottom="17dp"
         android:fontFamily="@font/fredoka_one"
         android:text="Predicted Videos"
-        app:layout_constraintBottom_toTopOf="@+id/rvVideo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uploadVideos"
         app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvVideo"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView4"
+        tools:listitem="@layout/item_video" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

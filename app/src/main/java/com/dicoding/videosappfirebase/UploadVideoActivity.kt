@@ -63,7 +63,7 @@ class  UploadVideoActivity : AppCompatActivity() {
 
         val timestamp = "" + System.currentTimeMillis()
 
-        val filePathAndName = "Videos/video_$timestamp"
+        val filePathAndName = "Videos/video_$title"
 
         val storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)
         storageReference.putFile(videoUri!!)
@@ -81,7 +81,7 @@ class  UploadVideoActivity : AppCompatActivity() {
 
 
                     val dbReference = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
-                    dbReference.child(int.toString() + 1)
+                    dbReference.child(title)
                         .setValue(hashMap)
                         .addOnSuccessListener {
                             progressDialog.dismiss()

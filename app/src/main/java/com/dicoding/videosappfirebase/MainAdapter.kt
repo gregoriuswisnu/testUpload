@@ -1,6 +1,7 @@
 package com.dicoding.videosappfirebase
 
 import android.content.Context
+import android.media.AudioDeviceCallback
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -13,16 +14,43 @@ import android.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
+import com.dicoding.videosappfirebase.databinding.ItemVideoBinding
 
 class MainAdapter(private var context:Context, private var videoArrayList:ArrayList<ModelVideo>?):RecyclerView.Adapter<MainAdapter.HolderVideo>() {
 
-    class HolderVideo(itemView:View): RecyclerView.ViewHolder(itemView){
+    private lateinit var binding: ItemVideoBinding
 
-        var videoView:VideoView = itemView.findViewById(R.id.video)
-        var title: TextView = itemView.findViewById(R.id.title_video)
-        var time: TextView = itemView.findViewById(R.id.time)
-        var progressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
+    private var onItemClickCallback: OnItemClickCallback? = null
 
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+
+   inner class HolderVideo(itemView:View): RecyclerView.ViewHolder(itemView){
+        private val binding = ItemVideoBinding.bind(itemView)
+
+        fun bind(modelVideo: ModelVideo){
+            with(itemView){
+                binding.titleVideo.text = modelVideo.title
+               val timestamp = modelVideo.timestamp.also { this@HolderVideo.binding.time.text = it }
+
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = timestamp!!.toLong()
+                val formattedDateTime = android.text.format.DateFormat.format("dd/MM/yyyy K:mm a",calendar).toString()
+
+                binding.time.text = formattedDateTime
+
+                itemView.setOnClickListener { onItemClickCallback?.onItemClicked(modelVideo) }
+            }
+
+        }
+    }
+
+    interface OnItemClickCallback{
+        fun onItemClicked(userItems: ModelVideo){
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderVideo {
@@ -31,25 +59,12 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
     }
 
     override fun onBindViewHolder(holder: HolderVideo, position: Int) {
-        val modelVideo = videoArrayList!![position]
-        val id:String? = modelVideo.id
-        val title:String? = modelVideo.title
-        val timestamp:String? = modelVideo.timestamp
-        val video:String? = modelVideo.videoUrl
-
-        val calendar = Calendar.getInstance()
-            calendar.timeInMillis = timestamp!!.toLong()
-            val formattedDateTime = android.text.format.DateFormat.format("dd/MM/yyyy K:mm a",calendar).toString()
-
-            holder.title.text = title
-            holder.time.text = formattedDateTime
-            setVideoUrl(modelVideo,holder)
-
-
-
+        holder.bind(videoArrayList!![position])
     }
 
-    private fun setVideoUrl(modelVideo: ModelVideo, holder: HolderVideo) {
+
+
+    /*private fun setVideoUrl(modelVideo: ModelVideo, holder: HolderVideo) {
         holder.progressBar.visibility = View.VISIBLE
 
         val videoUrl: String? = modelVideo.videoUrl
@@ -68,7 +83,7 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
         holder.videoView.setOnInfoListener(MediaPlayer.OnInfoListener{mp, what, extra ->
             when(what){
                 MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START ->{
-                    holder.progressBar.visibility = View.INVISIBLE
+                    holder.progressBar.visibility = View.GONE
                     return@OnInfoListener true
                 }
                 MediaPlayer.MEDIA_INFO_BUFFERING_START ->{
@@ -86,7 +101,7 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
             mediaPlayer.stop()
         }
     }
-
+*/
     override fun getItemCount(): Int {
         return videoArrayList!!.size
     }

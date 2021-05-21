@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.videosappfirebase.databinding.ActivityMainBinding
 import com.google.firebase.database.DataSnapshot
@@ -20,8 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-/*        setContentView(R.layout.activity_main)
-        var recyclerView = R.id.rvVideo*/
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -48,9 +47,21 @@ class MainActivity : AppCompatActivity() {
                     videoArrayList.add(modelVideo!!)
                 }
                 binding.rvVideo.layoutManager = LinearLayoutManager(applicationContext)
+                /*binding.rvVideo.setHasFixedSize(true)*/
                 videoAdapter = MainAdapter(this@MainActivity,videoArrayList)
                 binding.rvVideo.adapter = videoAdapter
 
+                videoAdapter.setOnItemClickCallback(object : MainAdapter.OnItemClickCallback{
+                    override fun onItemClicked(userItems: ModelVideo) {
+                        super.onItemClicked(userItems)
+                        Toast.makeText(this@MainActivity, "You pick ${userItems.title}", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@MainActivity, DetailActivity::class.java)
+/*                        intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.videoUrl)*/
+                        intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.title)
+/*                        intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.timestamp)*/
+                        startActivity(intent)
+                    }
+                })
 
             }
 
