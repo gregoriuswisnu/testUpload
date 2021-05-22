@@ -8,16 +8,16 @@ class ModelVideo {
     var videoUrl: String? = null
 
 
-    constructor(){
-
-    }
-
-    constructor(id: String?, title: String?, timestamp: String?, videoUrl: String?) {
-        this.id = id
-        this.title = title
-        this.timestamp = timestamp
-        this.videoUrl = videoUrl
-    }
+//    constructor(){
+//
+//    }
+//
+//    constructor(id: String?, title: String?, timestamp: String?, videoUrl: String?) {
+//        this.id = id
+//        this.title = title
+//        this.timestamp = timestamp
+//        this.videoUrl = videoUrl
+//    }
 
 
 }

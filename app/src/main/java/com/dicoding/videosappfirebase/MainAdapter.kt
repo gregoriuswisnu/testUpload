@@ -18,8 +18,6 @@ import com.dicoding.videosappfirebase.databinding.ItemVideoBinding
 
 class MainAdapter(private var context:Context, private var videoArrayList:ArrayList<ModelVideo>?):RecyclerView.Adapter<MainAdapter.HolderVideo>() {
 
-    private lateinit var binding: ItemVideoBinding
-
     private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -27,17 +25,19 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
     }
 
 
-   inner class HolderVideo(itemView:View): RecyclerView.ViewHolder(itemView){
+    inner class HolderVideo(itemView:View): RecyclerView.ViewHolder(itemView){
         private val binding = ItemVideoBinding.bind(itemView)
 
         fun bind(modelVideo: ModelVideo){
             with(itemView){
                 binding.titleVideo.text = modelVideo.title
-               val timestamp = modelVideo.timestamp.also { this@HolderVideo.binding.time.text = it }
+                val timestamp = modelVideo.timestamp.also { this@HolderVideo.binding.time.text = it }
 
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = timestamp!!.toLong()
                 val formattedDateTime = android.text.format.DateFormat.format("dd/MM/yyyy K:mm a",calendar).toString()
+                val mediaController = MediaController(context)
+
 
                 binding.time.text = formattedDateTime
 

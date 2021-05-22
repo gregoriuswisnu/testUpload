@@ -58,7 +58,6 @@ class  UploadVideoActivity : AppCompatActivity() {
     }
 
     private fun uploadVideotoFirebase() {
-        var int = ""
         progressDialog.show()
 
         val timestamp = "" + System.currentTimeMillis()

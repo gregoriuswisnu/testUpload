@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
         ref.addValueEventListener(object :ValueEventListener{
+
             override fun onDataChange(snapshot: DataSnapshot) {
                 videoArrayList.clear()
                 for (ds in snapshot.children){
@@ -47,8 +48,7 @@ class MainActivity : AppCompatActivity() {
                     videoArrayList.add(modelVideo!!)
                 }
                 binding.rvVideo.layoutManager = LinearLayoutManager(applicationContext)
-                /*binding.rvVideo.setHasFixedSize(true)*/
-                videoAdapter = MainAdapter(this@MainActivity,videoArrayList)
+                videoAdapter = MainAdapter(this@MainActivity, videoArrayList)
                 binding.rvVideo.adapter = videoAdapter
 
                 videoAdapter.setOnItemClickCallback(object : MainAdapter.OnItemClickCallback{
@@ -56,9 +56,8 @@ class MainActivity : AppCompatActivity() {
                         super.onItemClicked(userItems)
                         Toast.makeText(this@MainActivity, "You pick ${userItems.title}", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@MainActivity, DetailActivity::class.java)
-/*                        intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.videoUrl)*/
                         intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.title)
-/*                        intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.timestamp)*/
+                        intent.putExtra(DetailActivity.EXTRA_VIDEO,userItems.videoUrl)
                         startActivity(intent)
                     }
                 })

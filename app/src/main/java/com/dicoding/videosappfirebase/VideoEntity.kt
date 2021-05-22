@@ -8,5 +8,5 @@ data class VideoEntity(
     var title: String,
     var videoUrl: String,
     var timestamp: String?,
-    var deepFake: Boolean
+    var deepFake: String?
 )
