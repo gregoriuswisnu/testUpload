@@ -16,9 +16,15 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.dicoding.videosappfirebase.databinding.ItemVideoBinding
 
-class MainAdapter(private var context:Context, private var videoArrayList:ArrayList<ModelVideo>?):RecyclerView.Adapter<MainAdapter.HolderVideo>() {
-
+class MainAdapter:RecyclerView.Adapter<MainAdapter.HolderVideo>() {
+    var videoArrayList=ArrayList<ModelVideo>()
     private var onItemClickCallback: OnItemClickCallback? = null
+
+    fun setData(item : ArrayList<ModelVideo>){
+        videoArrayList?.clear()
+        videoArrayList?.addAll(item)
+        notifyDataSetChanged()
+    }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
@@ -36,7 +42,7 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = timestamp!!.toLong()
                 val formattedDateTime = android.text.format.DateFormat.format("dd/MM/yyyy K:mm a",calendar).toString()
-                val mediaController = MediaController(context)
+/*                val mediaController = MediaController(context)*/
 
 
                 binding.time.text = formattedDateTime
@@ -54,12 +60,12 @@ class MainAdapter(private var context:Context, private var videoArrayList:ArrayL
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderVideo {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_video,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_video,parent,false)
         return HolderVideo(view)
     }
 
     override fun onBindViewHolder(holder: HolderVideo, position: Int) {
-        holder.bind(videoArrayList!![position])
+        holder.bind(videoArrayList[position])
     }
 
 

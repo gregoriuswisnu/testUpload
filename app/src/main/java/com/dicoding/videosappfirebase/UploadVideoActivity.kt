@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.MediaController
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.dicoding.videosappfirebase.databinding.ActivityUploadVideoBinding
+import com.dicoding.videosappfirebase.viewmodel.UploudVideoViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
@@ -16,14 +18,16 @@ import com.google.firebase.storage.FirebaseStorage
 class  UploadVideoActivity : AppCompatActivity() {
     private var videoUri: Uri? = null
     private lateinit var binding: ActivityUploadVideoBinding
-    private var title:String = ""
+    private var title: String = ""
     private var deepfake: Boolean? = null
+    private lateinit var viewModel: UploudVideoViewModel
 
     private lateinit var progressDialog: ProgressDialog
 
-    companion object{
+    companion object {
         private const val VIDEO_GALLERY_CODE = 100
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadVideoBinding.inflate(layoutInflater)
@@ -41,6 +45,7 @@ class  UploadVideoActivity : AppCompatActivity() {
         progressDialog.setMessage("Uploading video...")
         progressDialog.setCanceledOnTouchOutside(false)
 
+
         binding.uploadVideos.setOnClickListener {
             title = binding.EdtTitle.text.toString().trim()
             when {
@@ -56,6 +61,7 @@ class  UploadVideoActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun uploadVideotoFirebase() {
         progressDialog.show()
@@ -98,14 +104,14 @@ class  UploadVideoActivity : AppCompatActivity() {
             }
     }
 
-    private fun videoPickGallery(){
+    private fun videoPickGallery() {
         val intent = Intent()
         intent.type = "video/*"
         intent.action = Intent.ACTION_GET_CONTENT
 
         startActivityForResult(
-            Intent.createChooser(intent, "Choose video"),
-            VIDEO_GALLERY_CODE)
+                Intent.createChooser(intent, "Choose video"),
+                VIDEO_GALLERY_CODE)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -114,15 +120,14 @@ class  UploadVideoActivity : AppCompatActivity() {
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == RESULT_OK){
-            if (requestCode == VIDEO_GALLERY_CODE){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == VIDEO_GALLERY_CODE) {
                 videoUri = data!!.data
                 setVideoToVideoView()
             }
-        }else{
+        } else {
             Toast.makeText(this, "Gagal ambil video", Toast.LENGTH_SHORT).show()
         }
         super.onActivityResult(requestCode, resultCode, data)

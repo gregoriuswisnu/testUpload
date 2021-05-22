@@ -6,6 +6,7 @@ class ModelVideo {
     var title: String? = null
     var timestamp: String? = null
     var videoUrl: String? = null
+    var deepfake : String? = null
 
 
 //    constructor(){

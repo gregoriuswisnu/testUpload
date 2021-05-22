@@ -1,23 +1,22 @@
 package com.dicoding.videosappfirebase
 
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.videosappfirebase.databinding.ActivityMainBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.dicoding.videosappfirebase.viewmodel.ListViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var videoArrayList: ArrayList<ModelVideo>
+    private lateinit var video: ArrayList<ModelVideo>
     private lateinit var videoAdapter : MainAdapter
+    private lateinit var viewModel: ListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +24,51 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.title = "Home"
+        viewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory()).get(ListViewModel::class.java)
 
 
+       binding.progressBar.visibility= View.VISIBLE
+        setRv()
+
+    }
+
+    private fun setRv(){
+        video = ArrayList()
+
+        binding.rvVideo.layoutManager = LinearLayoutManager(applicationContext)
+        videoAdapter = MainAdapter()
+        viewModel.loadVideo()
+        viewModel.getlist().observe(this,{User ->
+            if (User!=null){
+                videoAdapter.setData(User)
+
+            }
+        })
+
+        binding.rvVideo.adapter = videoAdapter
+        binding.progressBar.visibility= View.GONE
+
+
+        videoAdapter.setOnItemClickCallback(object : MainAdapter.OnItemClickCallback{
+            override fun onItemClicked(userItems: ModelVideo) {
+                super.onItemClicked(userItems)
+                Toast.makeText(this@MainActivity, "You pick ${userItems.title}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.title)
+                intent.putExtra(DetailActivity.EXTRA_VIDEO,userItems.videoUrl)
+                intent.putExtra(DetailActivity.EXTRA_DATE,userItems.timestamp)
+                startActivity(intent)
+            }
+        })
         binding.uploadVideos.setOnClickListener {
             intent = Intent(this, UploadVideoActivity::class.java)
             startActivity(intent)
         }
-
-        loadVideo()
     }
 
-    fun loadVideo() {
+
+
+   /* fun loadVideo() {
         videoArrayList = ArrayList()
 
         val ref = FirebaseDatabase.getInstance("https://videosappfirebase-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Videos")
@@ -58,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(this@MainActivity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.EXTRA_BRUH,userItems.title)
                         intent.putExtra(DetailActivity.EXTRA_VIDEO,userItems.videoUrl)
+                        intent.putExtra(DetailActivity.EXTRA_DATE,userItems.timestamp)
                         startActivity(intent)
                     }
                 })
@@ -69,6 +103,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
+*/
 
 }
